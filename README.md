@@ -76,16 +76,12 @@ A aplicação adota uma abordagem minimalista de alto desempenho, consolidando a
 
 ### Passos para Execução
 1. Clone o repositório em sua máquina local:
-   git clone [https://github.com/seu-usuario/intelligent-portfolio-robo-advisor.git](https://github.com/seu-usuario/intelligent-portfolio-robo-advisor.git)
    
 2. Acesse o diretório do projeto:
-   cd intelligent-portfolio-robo-advisor
    
-3.Restaure as dependências do NuGet (incluindo o pacote do ML.NET):
-   dotnet restore
+3. Restaure as dependências do NuGet (incluindo o pacote do ML.NET):
    
 4. Compile e execute a aplicação:
-   dotnet run
 
 ## 📄 Licença
 Este projeto é um experimento educacional livre. Sinta-se à vontade para clonar, modificar e expandir o motor de alocação quântica conforme suas necessidades de estudo.
