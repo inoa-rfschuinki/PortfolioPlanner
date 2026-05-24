@@ -78,12 +78,15 @@ A aplicação adota uma abordagem minimalista de alto desempenho, consolidando a
 1. Clone o repositório em sua máquina local:
    ```bash
    git clone [https://github.com/seu-usuario/intelligent-portfolio-robo-advisor.git](https://github.com/seu-usuario/intelligent-portfolio-robo-advisor.git)
+   
 2. Acesse o diretório do projeto:
    ```bash
    cd intelligent-portfolio-robo-advisor
+   
 3.Restaure as dependências do NuGet (incluindo o pacote do ML.NET):
    ```bash
    dotnet restore
+   
 4. Compile e execute a aplicação:
    ```bash
    dotnet run
