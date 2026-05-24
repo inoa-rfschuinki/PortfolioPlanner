@@ -1,0 +1,150 @@
+<Window x:Class="PortfolioPlanner.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PortfolioPlanner"
+        mc:Ignorable="d"
+        Title="Portfolio Planner - RSS Analysis" Height="620" Width="960"
+        Background="#1E1E2E">
+    <Window.Resources>
+        <Style TargetType="TabControl">
+            <Setter Property="Background" Value="#1E1E2E"/>
+            <Setter Property="BorderBrush" Value="#3A3A5C"/>
+        </Style>
+        <Style TargetType="TabItem">
+            <Setter Property="Background" Value="#2A2A3E"/>
+            <Setter Property="Foreground" Value="#CDD6F4"/>
+            <Setter Property="BorderBrush" Value="#3A3A5C"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#45475A"/>
+                    <Setter Property="Foreground" Value="#89B4FA"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#89B4FA"/>
+            <Setter Property="Foreground" Value="#1E1E2E"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="10,4"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="#313244"/>
+            <Setter Property="Foreground" Value="#CDD6F4"/>
+            <Setter Property="BorderBrush" Value="#45475A"/>
+            <Setter Property="Padding" Value="4"/>
+            <Setter Property="CaretBrush" Value="#CDD6F4"/>
+        </Style>
+        <Style TargetType="ListBox">
+            <Setter Property="Background" Value="#313244"/>
+            <Setter Property="Foreground" Value="#CDD6F4"/>
+            <Setter Property="BorderBrush" Value="#45475A"/>
+        </Style>
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="#313244"/>
+            <Setter Property="Foreground" Value="#CDD6F4"/>
+            <Setter Property="BorderBrush" Value="#45475A"/>
+            <Setter Property="RowBackground" Value="#313244"/>
+            <Setter Property="AlternatingRowBackground" Value="#2A2A3E"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="#45475A"/>
+            <Setter Property="ColumnHeaderHeight" Value="30"/>
+        </Style>
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#45475A"/>
+            <Setter Property="Foreground" Value="#89B4FA"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="BorderBrush" Value="#3A3A5C"/>
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="#CDD6F4"/>
+        </Style>
+    </Window.Resources>
+    <Grid Margin="10">
+        <TabControl x:Name="MainTabControl">
+            <!-- Aba 1: Feeds -->
+            <TabItem Header="Feeds">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Content="Feeds RSS Cadastrados" FontSize="14" FontWeight="Bold" Foreground="#89B4FA" Margin="0,0,0,6"/>
+                    <ListBox Grid.Row="1" x:Name="FeedsListBox" Margin="0,0,0,10"/>
+                    <Grid Grid.Row="2" Margin="0,0,0,6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" x:Name="FeedUrlTextBox" Margin="0,0,8,0" VerticalContentAlignment="Center"/>
+                        <Button Grid.Column="1" Content="Adicionar" Margin="0,0,8,0" Click="AddFeed_Click"/>
+                        <Button Grid.Column="2" Content="Remover" Background="#F38BA8" Click="RemoveFeed_Click"/>
+                    </Grid>
+                    <Button Grid.Row="3" Content="Buscar Noticias" HorizontalAlignment="Left" Padding="14,6" Click="FetchNews_Click" Background="#A6E3A1" Margin="0,4,0,0"/>
+                </Grid>
+            </TabItem>
+            <!-- Aba 2: Noticias e Sentimento -->
+            <TabItem Header="Noticias &amp; Sentimento">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Content="Noticias Extraidas" FontSize="14" FontWeight="Bold" Foreground="#89B4FA" Margin="0,0,0,6"/>
+                    <DataGrid Grid.Row="1" x:Name="NewsDataGrid" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Data"      Binding="{Binding PubDate}"   Width="120"/>
+                            <DataGridTextColumn Header="Titulo"    Binding="{Binding Title}"     Width="*"/>
+                            <DataGridTextColumn Header="Ativo"     Binding="{Binding Asset}"     Width="90"/>
+                            <DataGridTextColumn Header="Sentimento" Binding="{Binding Sentiment}" Width="100"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <!-- Aba 3: Carteira Recomendada -->
+            <TabItem Header="Carteira Recomendada">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Content="Carteira Recomendada" FontSize="14" FontWeight="Bold" Foreground="#89B4FA" Margin="0,0,0,6"/>
+                    <Grid Grid.Row="1" Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="140"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="140"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="Budget Total (R$):" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="1" x:Name="BudgetTextBox" Text="100000" Margin="6,0" VerticalContentAlignment="Center"/>
+                        <Label Grid.Column="2" Content="Perfil:" VerticalAlignment="Center" Margin="12,0,0,0"/>
+                        <ComboBox Grid.Column="3" x:Name="ProfileComboBox" Margin="6,0" VerticalContentAlignment="Center"
+                                  Background="#313244" Foreground="#CDD6F4" BorderBrush="#45475A"/>
+                        <Button Grid.Column="4" Content="Gerar Carteira" Padding="14,6" Click="GeneratePortfolio_Click"/>
+                    </Grid>
+                    <DataGrid Grid.Row="2" x:Name="PortfolioDataGrid" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Ativo"            Binding="{Binding Asset}"                                  Width="100"/>
+                            <DataGridTextColumn Header="Categoria"        Binding="{Binding Category}"                               Width="120"/>
+                            <DataGridTextColumn Header="Peso (%)"         Binding="{Binding WeightPct,      StringFormat={}{0:F2}}"  Width="80"/>
+                            <DataGridTextColumn Header="Valor Alocado (R$)" Binding="{Binding AllocatedValue, StringFormat={}{0:N2}}" Width="150"/>
+                            <DataGridTextColumn Header="Sugestao"         Binding="{Binding Suggestion}"                            Width="90"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
